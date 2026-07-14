@@ -3,8 +3,10 @@
 namespace Modules\User\Services;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
+use function PHPUnit\Framework\throwException;
 
 class UserService
 {
@@ -36,7 +38,7 @@ class UserService
         $user = User::where('email', $validated['email'])->first();
 
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            throwException(new \Exception('Invalid credentials'));
         }
 
         return $user;

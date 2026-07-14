@@ -58,6 +58,11 @@ class UserController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
+//        validate
+//        get user by email
+//        check password
+//        if password is correct, generate token
+//        return user and access token
         $validated = $request->validated();
 
         $user = $this->userService->get($validated);
