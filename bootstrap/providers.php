@@ -1,8 +1,9 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use Nwidart\Modules\LaravelModulesServiceProvider;
 
 return [
     AppServiceProvider::class,
-    Nwidart\Modules\LaravelModulesServiceProvider::class,
+    LaravelModulesServiceProvider::class,
 ];
