@@ -9,6 +9,7 @@ use Modules\User\Transformers\UserResource;
 class ProjectResource extends JsonResource
 {
     public static $wrap = 'project';
+
     /**
      * Transform the resource into an array.
      */

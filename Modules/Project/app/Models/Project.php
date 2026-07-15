@@ -12,11 +12,11 @@ class Project extends Model
 {
     protected $table = 'project';
 
-    protected $fillable = ['name', 'description', 'status','owner_id'];
+    protected $fillable = ['name', 'description', 'status', 'owner_id'];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class,'owner_id','id');
+        return $this->belongsTo(User::class, 'owner_id', 'id');
     }
     // protected static function newFactory(): ProjectFactory
     // {
