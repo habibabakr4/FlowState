@@ -3,6 +3,7 @@
 namespace Modules\Project\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Modules\Project\Http\Requests\StoreProjectRequest;
 use Modules\Project\Models\Project;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
         //        create project
         //        return project
         $validated = $request->validated();
-        $user = Auth::guard('sanctum')->user();
+        $user = auth()->user();
 
         $project = $this->projectService->create($validated, $user);
 
@@ -33,19 +34,20 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //        is this project belongs to the auth user?
-        $user = Auth::guard('sanctum')->user();
+        $user = auth()->user();
 
         if ($project->owner_id !== $user->id) {
-            throw new \Exception('Unauthorized');
+            throw new AuthorizationException('Unauthorized');
         }
-        $this->fromResource(ProjectResource::make($project))
+
+        return $this->fromResource(ProjectResource::make($project))
             ->setStatusCode(200)
             ->toResponse();
     }
 
     public function index()
     {
-        $user = Auth::guard('sanctum')->user();
+        $user = auth()->user();
 
         $projects = Project::where('owner_id', $user->id)->get();
 
