@@ -8,6 +8,7 @@ use Modules\Project\Http\Requests\StoreProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Services\ProjectService;
 use Modules\Project\Transformers\ProjectResource;
+use Modules\Project\Transformers\ProjectCollection;
 
 class ProjectController extends Controller
 {
@@ -20,7 +21,6 @@ class ProjectController extends Controller
         //        create project
         //        return project
         $validated = $request->validated();
-
         $user = Auth::guard('sanctum')->user();
 
         $project = $this->projectService->create($validated, $user);
@@ -38,10 +38,21 @@ class ProjectController extends Controller
         if ($project->owner_id !== $user->id) {
             throw new \Exception('Unauthorized');
         }
-        return $this->fromResource(ProjectResource::make($project))
+        $this->fromResource(ProjectResource::make($project))
             ->setStatusCode(200)
             ->toResponse();
     }
 
+    public function index()
+    {
+        $user = Auth::guard('sanctum')->user();
+
+        $projects = Project::where('owner_id', $user->id)->get();
+
+
+        return $this->fromResource(ProjectCollection::make($projects))
+            ->setStatusCode(200)
+            ->toResponse();
+    }
     
 }
