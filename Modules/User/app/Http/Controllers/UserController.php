@@ -16,17 +16,7 @@ class UserController extends Controller
 {
     public function __construct(private readonly UserService $userService) {}
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('user::index');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function register(RegisterRequest $request): JsonResponse
     {
         //        validate data
@@ -58,11 +48,11 @@ class UserController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-//        validate
-//        get user by email
-//        check password
-//        if password is correct, generate token
-//        return user and access token
+        //        validate
+        //        get user by email
+        //        check password
+        //        if password is correct, generate token
+        //        return user and access token
         $validated = $request->validated();
 
         $user = $this->userService->get($validated);
@@ -79,29 +69,4 @@ class UserController extends Controller
             ->toResponse();
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }
