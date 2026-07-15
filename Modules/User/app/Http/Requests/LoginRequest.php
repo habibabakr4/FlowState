@@ -2,10 +2,9 @@
 
 namespace Modules\User\Http\Requests;
 
-use App\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -13,9 +12,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:3'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8','confirmed',Password::default()],
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required', 'string'],
         ];
     }
 
