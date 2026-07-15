@@ -32,8 +32,16 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $this->fromResource(ProjectResource::make($project))
+//        is this project belongs to the auth user?
+        $user = Auth::guard('sanctum')->user();
+
+        if ($project->owner_id !== $user->id) {
+            throw new \Exception('Unauthorized');
+        }
+        return $this->fromResource(ProjectResource::make($project))
             ->setStatusCode(200)
             ->toResponse();
     }
+
+    
 }
