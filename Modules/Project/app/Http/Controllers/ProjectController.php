@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Project\Http\Requests\StoreProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Services\ProjectService;
-use Modules\Project\Transformers\ProjectResource;
 use Modules\Project\Transformers\ProjectCollection;
+use Modules\Project\Transformers\ProjectResource;
 
 class ProjectController extends Controller
 {
@@ -32,7 +32,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-//        is this project belongs to the auth user?
+        //        is this project belongs to the auth user?
         $user = Auth::guard('sanctum')->user();
 
         if ($project->owner_id !== $user->id) {
@@ -49,10 +49,8 @@ class ProjectController extends Controller
 
         $projects = Project::where('owner_id', $user->id)->get();
 
-
         return $this->fromResource(ProjectCollection::make($projects))
             ->setStatusCode(200)
             ->toResponse();
     }
-    
 }
