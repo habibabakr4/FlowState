@@ -51,6 +51,12 @@ class ProjectController extends Controller
 
         $projects = Project::where('owner_id', $user->id)->get();
 
+        if ($projects->isEmpty()) {
+            return $this->addToResponse(['message' => 'No projects found'])
+                ->setStatusCode(404)
+                ->toResponse();
+        }
+
         return $this->fromResource(ProjectCollection::make($projects))
             ->setStatusCode(200)
             ->toResponse();
