@@ -2,9 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Project\Http\Controllers\ProjectController;
+use Modules\User\Http\Controllers\DashboardController;
 
-Route::middleware(['auth:sanctum'])->prefix('v1/projects')->group(function () {
-    Route::post('', [ProjectController::class, 'store']);
-    Route::get('/{project}', [ProjectController::class, 'show']);
-    Route::get('', [ProjectController::class, 'index']);
+Route::prefix('v1')->group(function () {
+
+    Route::prefix('projects')
+        ->controller(ProjectController::class)
+        ->middleware(['auth:sanctum'])
+        ->group(function () {
+            Route::post('', 'store');
+            Route::get('', 'index');
+            Route::get('/{project}', 'show');
+    });
 });
