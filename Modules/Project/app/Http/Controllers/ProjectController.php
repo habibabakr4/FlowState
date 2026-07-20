@@ -4,7 +4,6 @@ namespace Modules\Project\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Auth;
 use Modules\Project\Http\Requests\StoreProjectRequest;
 use Modules\Project\Models\Project;
 use Modules\Project\Services\ProjectService;
