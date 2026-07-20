@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\User\Http\Controllers;
+namespace Modules\Dashboard\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Modules\User\Services\DashboardService;
+use Modules\Dashboard\Services\DashboardService;
 use Modules\User\Transformers\UserResource;
 
 class DashboardController extends Controller

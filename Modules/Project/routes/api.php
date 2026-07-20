@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Project\Http\Controllers\ProjectController;
-use Modules\User\Http\Controllers\DashboardController;
 
 Route::prefix('v1')->group(function () {
 
