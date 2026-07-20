@@ -12,5 +12,5 @@ Route::prefix('v1')->group(function () {
             Route::post('', 'store');
             Route::get('', 'index');
             Route::get('/{project}', 'show');
-    });
+        });
 });

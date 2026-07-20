@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\UserController;
 
-
 Route::prefix('v1')->group(function () {
     Route::prefix('user')
         ->controller(UserController::class)
@@ -12,4 +11,3 @@ Route::prefix('v1')->group(function () {
             Route::post('login', 'login');
         });
 });
-

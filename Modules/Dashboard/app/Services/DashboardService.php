@@ -6,17 +6,17 @@ use Modules\User\Models\User;
 
 class DashboardService
 {
-    public function getDashboardData(User $user) : array
+    public function getDashboardData(User $user): array
     {
-//        $totalProjects = $user->projects()->count();
-//
-//        $activeProjects = $user->projects()->where('status', 'active')->count();
-//
-//        $completedProjects = $user->projects()->where('status', 'completed')->count();
-//
+        //        $totalProjects = $user->projects()->count();
+        //
+        //        $activeProjects = $user->projects()->where('status', 'active')->count();
+        //
+        //        $completedProjects = $user->projects()->where('status', 'completed')->count();
+        //
         $recentProjects = $user->projects()->latest()->take(3)->get();
 
-//         ✅ One query, group by status
+        //         ✅ One query, group by status
         $counts = $user->projects()
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')

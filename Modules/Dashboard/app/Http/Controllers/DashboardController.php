@@ -8,7 +8,7 @@ use Modules\User\Transformers\UserResource;
 
 class DashboardController extends Controller
 {
-    public function __construct(private readonly DashboardService $dashboardService){}
+    public function __construct(private readonly DashboardService $dashboardService) {}
 
     public function index()
     {
@@ -19,5 +19,4 @@ class DashboardController extends Controller
         return $this->fromResource(UserResource::make($user))->addToResponse($dashboardData)->toResponse();
 
     }
-
 }
