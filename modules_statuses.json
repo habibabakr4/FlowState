@@ -1,5 +1,6 @@
 {
     "User": true,
     "Project": true,
-    "Dashboard": true
+    "Dashboard": true,
+    "Task": true
 }
