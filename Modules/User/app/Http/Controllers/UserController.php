@@ -4,7 +4,6 @@ namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Requests\RegisterRequest;
@@ -15,7 +14,6 @@ use Modules\User\Transformers\UserResource;
 class UserController extends Controller
 {
     public function __construct(private readonly UserService $userService) {}
-
 
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -68,5 +66,4 @@ class UserController extends Controller
             ])
             ->toResponse();
     }
-
 }

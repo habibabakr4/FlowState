@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
+
 use function PHPUnit\Framework\throwException;
 
 class UserService

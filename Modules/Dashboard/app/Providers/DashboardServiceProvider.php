@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Project\Providers;
+namespace Modules\Dashboard\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
-class ProjectServiceProvider extends ModuleServiceProvider
+class DashboardServiceProvider extends ModuleServiceProvider
 {
     /**
      * The name of the module.
      */
-    protected string $name = 'Project';
+    protected string $name = 'Dashboard';
 
     /**
      * The lowercase version of the module name.
      */
-    protected string $nameLower = 'project';
+    protected string $nameLower = 'dashboard';
 
     /**
      * Command classes to register.
