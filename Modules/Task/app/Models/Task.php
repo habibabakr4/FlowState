@@ -2,8 +2,8 @@
 
 namespace Modules\Task\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Project\Models\Project;
@@ -20,8 +20,7 @@ class Task extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ['title','description','due_date','status','priority','created_by','project_id'];
-
+    protected $fillable = ['title', 'description', 'due_date', 'status', 'priority', 'created_by', 'project_id'];
 
     // protected static function newFactory(): TaskFactory
     // {

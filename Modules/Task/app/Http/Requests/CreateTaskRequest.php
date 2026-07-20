@@ -12,12 +12,12 @@ class CreateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required','string','min:3','max:30'],
-            'description' => ['required','min:3','max:255'],
-            'due_date' => ['required','date'],
-            'priority' => ['nullable','in:low,medium,high'],
-            'assigned_to' => ['required','array'],
-            'assigned_to.*' => ['required','exists:users,id','min:1'],
+            'title' => ['required', 'string', 'min:3', 'max:30'],
+            'description' => ['required', 'min:3', 'max:255'],
+            'due_date' => ['required', 'date'],
+            'priority' => ['nullable', 'in:low,medium,high'],
+            'assigned_to' => ['required', 'array'],
+            'assigned_to.*' => ['required', 'exists:users,id', 'min:1'],
         ];
     }
 
