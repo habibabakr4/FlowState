@@ -3,6 +3,7 @@
 namespace Modules\Task\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Modules\Project\Models\Project;
 use Modules\Task\Http\Requests\CreateTaskRequest;
 use Modules\Task\Models\Task;
@@ -18,10 +19,6 @@ class TaskController extends Controller
     {
         $tasks = $project->tasks()->get();
 
-        if ($tasks->isEmpty()) {
-            throw new \Exception('No tasks found for this project');
-        }
-
         return $this->fromResource(TaskCollection::make($tasks))
             ->addToResponse([
                 'message' => 'Tasks retrieved successfully',
@@ -31,6 +28,12 @@ class TaskController extends Controller
 
     public function store(CreateTaskRequest $request, Project $project)
     {
+        $user = auth()->user();
+
+        if (! $user->can('create-task', $project)) {
+            throw new Exception('Unauthorized to create task for this project');
+        }
+
         $task = $this->taskService->create($request->validated(), $project);
 
         return $this->fromResource(TaskResource::make($task))

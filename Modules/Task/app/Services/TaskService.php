@@ -5,18 +5,12 @@ namespace Modules\Task\Services;
 use Exception;
 use Modules\Project\Models\Project;
 use Modules\Task\Models\Task;
+use Modules\User\Models\User;
 
 class TaskService
 {
-    public function create(array $data, Project $project): Task
+    public function create(array $data, Project $project, User $user): Task
     {
-        $user = auth()->user();
-        if (! $user->can('create-task', $project)) {
-            throw new Exception('Unauthorized to create task for this project');
-        }
-        if (! $project) {
-            throw new Exception('Project not found');
-        }
 
         $task = $project->tasks()->create([
             'title' => $data['title'],
