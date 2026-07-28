@@ -3,6 +3,9 @@
 namespace Modules\Task\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Gate;
+use Modules\Project\Models\Project;
+use Modules\Task\Policies\TaskPolicy;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class TaskServiceProvider extends ModuleServiceProvider
@@ -16,6 +19,13 @@ class TaskServiceProvider extends ModuleServiceProvider
      * The lowercase version of the module name.
      */
     protected string $nameLower = 'task';
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        Gate::policy(Project::class, TaskPolicy::class);
+    }
 
     /**
      * Command classes to register.

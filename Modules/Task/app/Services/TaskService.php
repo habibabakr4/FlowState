@@ -11,7 +11,9 @@ class TaskService
     public function create(array $data, Project $project): Task
     {
         $user = auth()->user();
-
+        if (! $user->can('create-task', $project)) {
+            throw new Exception('Unauthorized to create task for this project');
+        }
         if (! $project) {
             throw new Exception('Project not found');
         }
