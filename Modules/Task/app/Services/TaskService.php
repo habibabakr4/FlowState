@@ -27,4 +27,15 @@ class TaskService
 
         return $task;
     }
+
+    public function update(Task $task, array $data): Task
+    {
+        $task->update($data);
+
+        if (isset($data['assigned_to'])) {
+            $task->assignedUsers()->sync($data['assigned_to']);
+        }
+
+        return $task;
+    }
 }
