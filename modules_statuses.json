@@ -2,5 +2,6 @@
     "User": true,
     "Project": true,
     "Dashboard": true,
-    "Task": true
+    "Task": true,
+    "Comment": true
 }

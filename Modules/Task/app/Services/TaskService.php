@@ -2,7 +2,6 @@
 
 namespace Modules\Task\Services;
 
-use Exception;
 use Modules\Project\Models\Project;
 use Modules\Task\Models\Task;
 use Modules\User\Models\User;

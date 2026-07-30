@@ -45,7 +45,8 @@ class TaskController extends Controller
     public function show(Project $project, Task $task)
     {
         if ($task->project_id != $project->id) {
-            abort(404, 'Task does not belong to this project');        }
+            abort(404, 'Task does not belong to this project');
+        }
 
         return $this->fromResource(TaskResource::make($task))
             ->addToResponse([
@@ -58,8 +59,9 @@ class TaskController extends Controller
     {
         $this->authorize('canUpdate', $project);
 
-        if($task->project_id != $project->id){
-            abort(404, 'Task does not belong to this project');        }
+        if ($task->project_id != $project->id) {
+            abort(404, 'Task does not belong to this project');
+        }
 
         $task = $this->taskService->update($task, $request->validated());
 
@@ -75,8 +77,9 @@ class TaskController extends Controller
     {
         $this->authorize('canUpdate', $project);
 
-        if($task->project_id != $project->id){
-            abort(404, 'Task does not belong to this project');        }
+        if ($task->project_id != $project->id) {
+            abort(404, 'Task does not belong to this project');
+        }
 
         $task->delete();
 

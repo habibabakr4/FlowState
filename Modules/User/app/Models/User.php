@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Comment\Models\Comment;
 use Modules\Project\Models\Project;
 use Modules\Task\Models\Task;
 
@@ -34,5 +35,10 @@ class User extends Authenticatable
     public function createdTasks(): HasMany
     {
         return $this->hasMany(Task::class, 'created_by', 'id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'created_by', 'id');
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Comment\Models\Comment;
 use Modules\Project\Models\Project;
 use Modules\User\Models\User;
 
@@ -20,7 +22,7 @@ class Task extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ['title', 'description', 'due_date', 'status', 'priority', 'created_by', 'project_id'];
+    protected $fillable = ['title', 'description', 'due_date', 'status', 'priority', 'created_by', 'project_id', 'body'];
 
     // protected static function newFactory(): TaskFactory
     // {
@@ -40,5 +42,10 @@ class Task extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'task_id', 'id');
     }
 }
