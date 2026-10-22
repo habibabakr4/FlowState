@@ -1,14 +1,6 @@
 import { AlertCircle, X } from 'lucide-react';
 
-/**
- * Reusable ErrorMessage / Alert component
- * 
- * Props:
- * - message: string - The error text to display (if null or empty, renders nothing)
- * - onClose: function (optional) - Callback when user clicks the dismiss button
- */
 export default function ErrorMessage({ message, onClose }) {
-  // If there's no message, don't render anything in the DOM
   if (!message) return null;
 
   return (

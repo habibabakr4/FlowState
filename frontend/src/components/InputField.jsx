@@ -1,8 +1,5 @@
 import React from 'react';
 
-/**
- * Reusable input field with label and leading/trailing icon support
- */
 export default function InputField({
   id,
   name,
@@ -15,6 +12,7 @@ export default function InputField({
   trailingAction,
   required = true,
   autoComplete,
+  error,
 }) {
   return (
     <div className="form-group">
@@ -23,7 +21,7 @@ export default function InputField({
           {label}
         </label>
       )}
-      <div className="input-wrapper">
+      <div className={`input-wrapper ${error ? 'input-wrapper-error' : ''}`}>
         {Icon && (
           <span className="input-icon-left">
             <Icon size={18} />
@@ -38,10 +36,11 @@ export default function InputField({
           onChange={onChange}
           required={required}
           autoComplete={autoComplete}
-          className="form-input"
+          className={`form-input ${error ? 'form-input-error' : ''}`}
         />
         {trailingAction}
       </div>
+      {error && <span className="field-error-message">{error}</span>}
     </div>
   );
 }

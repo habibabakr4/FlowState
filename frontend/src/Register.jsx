@@ -9,7 +9,6 @@ import './Register.css';
 export default function Register() {
   const navigate = useNavigate();
 
-  // 1. Form fields matching Laravel RegisterRequest requirements
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,47 +16,59 @@ export default function Register() {
     password_confirmation: '',
   });
 
-  // 2. UI interaction state
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 3. Handle change for any input field
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
   };
 
-  // 4. Form submission & API request
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
+    setErrors({});
+    setGeneralError('');
     setSuccessMessage('');
 
-    // Client-side quick validations
+    const newErrors = {};
+
     if (formData.name.trim().length < 3) {
-      setErrorMessage('Full name must be at least 3 characters.');
-      return;
+      newErrors.name = 'Full name must be at least 3 characters.';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required.';
     }
 
     if (formData.password.length < 8) {
-      setErrorMessage('Password must be at least 8 characters.');
-      return;
+      newErrors.password = 'Password must be at least 8 characters.';
     }
 
     if (formData.password !== formData.password_confirmation) {
-      setErrorMessage('Passwords do not match.');
+      newErrors.password_confirmation = 'Passwords do not match.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // POST request to Laravel: /api/v1/user/register
       const response = await api.post('/user/register', {
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -65,13 +76,11 @@ export default function Register() {
         password_confirmation: formData.password_confirmation,
       });
 
-      // Extract Sanctum token if returned
       const token = response.data?.auth?.token || response.data?.token;
       if (token) {
         localStorage.setItem('token', token);
       }
 
-      // Store authenticated user
       const user = response.data?.user || response.data?.data?.user || {
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -82,20 +91,20 @@ export default function Register() {
 
       setSuccessMessage('Account created successfully! Redirecting...');
 
-      // Redirect user to dashboard or login
       setTimeout(() => {
         navigate('/dashboard');
-      }, 1200);
+      }, 1000);
     } catch (err) {
-      // Handle Laravel validation errors (422) or generic server errors
       if (err.response?.data?.errors) {
-        // Collect first validation message
-        const firstErrorKey = Object.keys(err.response.data.errors)[0];
-        setErrorMessage(err.response.data.errors[firstErrorKey][0]);
+        const backendErrors = {};
+        Object.entries(err.response.data.errors).forEach(([field, messages]) => {
+          backendErrors[field] = Array.isArray(messages) ? messages[0] : messages;
+        });
+        setErrors(backendErrors);
       } else if (err.response?.data?.message) {
-        setErrorMessage(err.response.data.message);
+        setGeneralError(err.response.data.message);
       } else {
-        setErrorMessage('Unable to connect to server. Please try again.');
+        setGeneralError('Unable to connect to server. Please check your connection.');
       }
     } finally {
       setIsLoading(false);
@@ -105,7 +114,6 @@ export default function Register() {
   return (
     <div className="register-page">
       <div className="register-card">
-        {/* Brand Header */}
         <div className="brand-header">
           <div className="brand-icon">
             <Zap size={28} className="brand-icon-svg" />
@@ -114,13 +122,10 @@ export default function Register() {
           <p className="brand-subtitle">Create your free account</p>
         </div>
 
-        {/* Feedback Alerts */}
-        <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />
+        <ErrorMessage message={generalError} onClose={() => setGeneralError('')} />
         {successMessage && <div className="alert-box alert-success">{successMessage}</div>}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="register-form">
-          {/* Full Name */}
+        <form onSubmit={handleSubmit} className="register-form" noValidate>
           <InputField
             id="name"
             name="name"
@@ -128,12 +133,12 @@ export default function Register() {
             placeholder="Jane Doe"
             value={formData.name}
             onChange={handleChange}
+            error={errors.name}
             icon={User}
             autoComplete="name"
             required
           />
 
-          {/* Email */}
           <InputField
             id="email"
             name="email"
@@ -142,12 +147,12 @@ export default function Register() {
             placeholder="you@example.com"
             value={formData.email}
             onChange={handleChange}
+            error={errors.email}
             icon={Mail}
             autoComplete="email"
             required
           />
 
-          {/* Password */}
           <InputField
             id="password"
             name="password"
@@ -156,6 +161,7 @@ export default function Register() {
             placeholder="At least 8 characters"
             value={formData.password}
             onChange={handleChange}
+            error={errors.password}
             icon={Lock}
             autoComplete="new-password"
             required
@@ -171,7 +177,6 @@ export default function Register() {
             }
           />
 
-          {/* Confirm Password */}
           <InputField
             id="password_confirmation"
             name="password_confirmation"
@@ -180,18 +185,17 @@ export default function Register() {
             placeholder="Re-enter your password"
             value={formData.password_confirmation}
             onChange={handleChange}
+            error={errors.password_confirmation}
             icon={Lock}
             autoComplete="new-password"
             required
           />
 
-          {/* Submit Button */}
           <button type="submit" className="submit-btn" disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
-        {/* Footer / Switch to Login */}
         <div className="form-footer">
           Already have an account? <Link to="/login">Log In</Link>
         </div>
