@@ -21,6 +21,7 @@ class ProjectController extends Controller
         //        create project
         //        return project
         $validated = $request->validated();
+        
         $user = auth()->user();
 
         $project = $this->projectService->create($validated, $user);

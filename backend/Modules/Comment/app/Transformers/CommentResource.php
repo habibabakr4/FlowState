@@ -18,7 +18,8 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'body' => $this->body,
             'task_id' => $this->task_id,
-            'created_by' => $this->created_by,
+            'created_by' => $this->user ? $this->user->name : 'Unknown',
+            'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }
 }

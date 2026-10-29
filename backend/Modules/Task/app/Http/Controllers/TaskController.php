@@ -10,6 +10,7 @@ use Modules\Task\Models\Task;
 use Modules\Task\Services\TaskService;
 use Modules\Task\Transformers\TaskCollection;
 use Modules\Task\Transformers\TaskResource;
+use Modules\User\Models\User;
 
 class TaskController extends Controller
 {
@@ -30,7 +31,10 @@ class TaskController extends Controller
     {
         $this->authorize('create-task', $project);
 
-        $task = $this->taskService->create($request->validated(), $project);
+        $user = $request->user();
+        abort_unless($user instanceof User, 401);
+
+        $task = $this->taskService->create($request->validated(), $project, $user);
 
         return $this->fromResource(TaskResource::make($task))
             ->addToResponse([

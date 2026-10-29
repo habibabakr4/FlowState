@@ -8,17 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Task\Models\Task;
 use Modules\User\Models\User;
 
-// use Modules\Comment\Database\Factories\CommentFactory;
-
 class Comment extends Model
 {
     use HasFactory;
 
     protected $table = 'comment';
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = ['body', 'task_id', 'created_by'];
 
     public function task(): BelongsTo
@@ -28,11 +23,6 @@ class Comment extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
-
-    // protected static function newFactory(): CommentFactory
-    // {
-    //     // return CommentFactory::new();
-    // }
 }
